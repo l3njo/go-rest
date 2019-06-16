@@ -13,7 +13,7 @@ DBNAME - The database name, e.g my_database
 
 ## Running
 
-Simply run the 'rest.exe'.
+Simply run 'rest.exe'.
 The program will be launched on localhost:8000/users.
 
 ## Building from source
