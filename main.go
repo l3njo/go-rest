@@ -27,12 +27,6 @@ func main() {
 
 	db, err = gorm.Open("postgres", dbURI)
 
-	// db, err = gorm.Open(
-	// 	"postgres",
-	// 	"host="+os.Getenv("DBHOST")+" user="+os.Getenv("DBUSER")+
-	// 		" dbname="+os.Getenv("DBNAME")+" sslmode=disable password="+
-	// 		os.Getenv("DBPASS"))
-
 	if err != nil {
 		panic("failed to connect database")
 	}
@@ -44,6 +38,7 @@ func main() {
 	router.HandleFunc("/users", GetUsers).Methods("GET")
 	router.HandleFunc("/users/{id}", GetUser).Methods("GET")
 	router.HandleFunc("/users", CreateUser).Methods("POST")
+	router.HandleFunc("/users/{id}", UpdateUser).Methods("PUT")
 	router.HandleFunc("/users/{id}", DeleteUser).Methods("DELETE")
 
 	fmt.Println("Launching on localhost:8000...")
