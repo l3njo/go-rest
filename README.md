@@ -1,5 +1,7 @@
 # go-rest
 
+[![Go Report Card](https://goreportcard.com/badge/github.com/l3njo/go-rest)](https://goreportcard.com/report/github.com/l3njo/go-rest)
+
 This is a simple application that interfaces with a PostgreSQL database and exposes a REST API with GET, POST, PUT and DELETE methods to access and manipulate it.
 
 ## Configuration
