@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/l3njo/go-rest.svg?branch=master)](https://travis-ci.org/l3njo/go-rest)
 [![Go Report Card](https://goreportcard.com/badge/github.com/l3njo/go-rest)](https://goreportcard.com/report/github.com/l3njo/go-rest)
+[![codecov](https://codecov.io/gh/l3njo/go-rest/branch/master/graph/badge.svg)](https://codecov.io/gh/l3njo/go-rest)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 This is a simple application that interfaces with a PostgreSQL database and exposes a REST API with GET, POST, PUT and DELETE methods to access and manipulate it.
