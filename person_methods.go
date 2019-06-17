@@ -26,6 +26,7 @@ func GetPerson(w http.ResponseWriter, r *http.Request) {
 func CreatePerson(w http.ResponseWriter, r *http.Request) {
 	var person Person
 	json.NewDecoder(r.Body).Decode(&person)
+	defer r.Body.Close()
 	db.Create(&person)
 	json.NewEncoder(w).Encode(&person)
 }
@@ -34,8 +35,9 @@ func CreatePerson(w http.ResponseWriter, r *http.Request) {
 func UpdatePerson(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	var person Person
-	db.Where("id = ?", params["id"]).Find(&person)
+	db.First(&person, params["id"])
 	json.NewDecoder(r.Body).Decode(&person)
+	defer r.Body.Close()
 	db.Save(&person)
 	json.NewEncoder(w).Encode(&person)
 }
