@@ -16,7 +16,7 @@ import (
 var db *gorm.DB
 var err error
 
-func init() {
+func main() {
 	e := godotenv.Load()
 	if e != nil {
 		fmt.Print(e)
@@ -29,27 +29,24 @@ func init() {
 	dbPass := os.Getenv("db_pass")
 
 	dbURI := fmt.Sprintf("host=%s user=%s dbname=%s sslmode=disable password=%s", dbHost, dbUser, dbName, dbPass)
-	// fmt.Println(dbURI) // Uncomment to output connection string
 
 	db, err = gorm.Open(dbType, dbURI)
 
 	if err != nil {
-		panic("failed to connect database")
+		panic("failed to connect to database")
 	}
 
 	defer db.Close()
-	db.AutoMigrate(&User{})
-}
+	db.AutoMigrate(&Person{})
 
-func main() {
 	router := mux.NewRouter()
-	router.HandleFunc("api/users", GetUsers).Methods("GET")
-	router.HandleFunc("api/users/{id}", GetUser).Methods("GET")
-	router.HandleFunc("api/users/new", CreateUser).Methods("POST")
-	router.HandleFunc("api/users/edit/{id}", UpdateUser).Methods("PUT")
-	router.HandleFunc("api/users/{id}", DeleteUser).Methods("DELETE")
+	router.HandleFunc("/api/persons", GetPersons).Methods("GET")
+	router.HandleFunc("/api/persons/{id}", GetPerson).Methods("GET")
+	router.HandleFunc("/api/persons/new", CreatePerson).Methods("POST")
+	router.HandleFunc("/api/persons/edit/{id}", UpdatePerson).Methods("PUT")
+	router.HandleFunc("/api/persons/delete/{id}", DeletePerson).Methods("DELETE")
 
-	port := os.Getenv("PORT") //Get port from .env file.
+	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8000"
 	}
