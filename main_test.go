@@ -6,11 +6,9 @@ import (
 	"testing"
 )
 
-var a App
-
 func TestMain(m *testing.M) {
-	a = App{}
-	a.Init(dbHost, dbUser, dbName, dbPass, dbType)
+	app = App{}
+	app.Init(dbHost, dbUser, dbName, dbPass, dbType)
 	ensureTableExists()
 	code := m.Run()
 	clearTable()
@@ -18,12 +16,12 @@ func TestMain(m *testing.M) {
 }
 
 func ensureTableExists() {
-	if !a.DB.HasTable(&Person{}) {
+	if !app.DB.HasTable(&Person{}) {
 		log.Fatalf("table %T does not exist", &Person{})
 	}
 }
 
 func clearTable() {
-	a.DB.Unscoped().Delete(&Person{})
-	a.DB.Set("gorm:table_options", "AUTO_INCREMENT=1").AutoMigrate(&Person{})
+	app.DB.DropTable(&Person{})
+	app.DB.AutoMigrate(&Person{})
 }

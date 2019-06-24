@@ -10,7 +10,7 @@ import (
 // GetPersons returns all the users in JSON format
 func GetPersons(w http.ResponseWriter, r *http.Request) {
 	var persons []Person
-	db.Find(&persons)
+	app.DB.Find(&persons)
 	json.NewEncoder(w).Encode(&persons)
 }
 
@@ -18,7 +18,7 @@ func GetPersons(w http.ResponseWriter, r *http.Request) {
 func GetPerson(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	var person Person
-	db.First(&person, params["id"])
+	app.DB.First(&person, params["id"])
 	json.NewEncoder(w).Encode(&person)
 }
 
@@ -27,7 +27,7 @@ func CreatePerson(w http.ResponseWriter, r *http.Request) {
 	var person Person
 	json.NewDecoder(r.Body).Decode(&person)
 	defer r.Body.Close()
-	db.Create(&person)
+	app.DB.Create(&person)
 	json.NewEncoder(w).Encode(&person)
 }
 
@@ -35,10 +35,10 @@ func CreatePerson(w http.ResponseWriter, r *http.Request) {
 func UpdatePerson(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	var person Person
-	db.First(&person, params["id"])
+	app.DB.First(&person, params["id"])
 	json.NewDecoder(r.Body).Decode(&person)
 	defer r.Body.Close()
-	db.Save(&person)
+	app.DB.Save(&person)
 	json.NewEncoder(w).Encode(&person)
 }
 
@@ -47,8 +47,8 @@ func DeletePerson(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	var person Person
 	var persons []Person
-	db.First(&person, params["id"])
-	db.Delete(&person)
-	db.Find(&persons)
+	app.DB.First(&person, params["id"])
+	app.DB.Delete(&person)
+	app.DB.Find(&persons)
 	json.NewEncoder(w).Encode(&persons)
 }

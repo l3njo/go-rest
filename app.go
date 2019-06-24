@@ -11,6 +11,8 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
+var err error
+
 // App is a struct holding a mux.Router and gorm.DB
 type App struct {
 	Router *mux.Router

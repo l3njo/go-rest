@@ -4,12 +4,10 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/jinzhu/gorm"
 	"github.com/joho/godotenv"
 )
 
-var db *gorm.DB
-var err error
+var app App
 
 var dbHost, dbUser, dbName, dbPass, dbType, port string
 
@@ -30,7 +28,7 @@ func init() {
 }
 
 func main() {
-	a := App{}
-	a.Init(dbHost, dbUser, dbName, dbPass, dbType)
-	a.Run(port)
+	app = App{}
+	app.Init(dbHost, dbUser, dbName, dbPass, dbType)
+	app.Run(port)
 }
