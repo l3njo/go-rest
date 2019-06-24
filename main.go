@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"log"
 	"os"
 
 	"github.com/joho/godotenv"
@@ -13,7 +13,7 @@ var dbHost, dbUser, dbName, dbPass, dbType, port string
 
 func init() {
 	if err := godotenv.Load(); err != nil {
-		fmt.Print(err)
+		log.Fatal(err)
 	}
 	dbHost = os.Getenv("db_host")
 	dbUser = os.Getenv("db_user")

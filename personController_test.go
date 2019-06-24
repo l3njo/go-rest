@@ -48,7 +48,6 @@ func TestEmptyTable(t *testing.T) {
 	if status := response.Body.String(); status != "[]" {
 		t.Errorf("expected body []\ngot %v", status)
 	}
-
 }
 
 func TestGetPersons(t *testing.T) {

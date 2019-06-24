@@ -123,7 +123,7 @@ func (a *App) Run(port string) <span class="cov0" title="0">{
 		<pre class="file" id="file1" style="display: none">package main
 
 import (
-        "fmt"
+        "log"
         "os"
 
         "github.com/joho/godotenv"
@@ -135,7 +135,7 @@ var dbHost, dbUser, dbName, dbPass, dbType, port string
 
 func init() <span class="cov8" title="1">{
         if err := godotenv.Load(); err != nil </span><span class="cov0" title="0">{
-                fmt.Print(err)
+                log.Fatal(err)
         }</span>
         <span class="cov8" title="1">dbHost = os.Getenv("db_host")
         dbUser = os.Getenv("db_user")
