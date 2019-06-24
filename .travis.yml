@@ -4,6 +4,9 @@ go:
   - 1.12.5
   - tip
 
+services:
+  - postgresql
+
 before_install:
   - go get -t -v ./...
 
