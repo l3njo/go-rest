@@ -7,6 +7,11 @@ go:
 before_install:
   - go get -t -v ./...
 
+install:
+  - go get github.com/gorilla/mux
+  - go get github.com/jinzhu/gorm
+  - go get github.com/joho/godotenv
+
 script:
   - go test -coverprofile=coverage.out -covermode=atomic
   - go tool cover -html=coverage.out -o coverage.html 
