@@ -45,7 +45,7 @@ func TestEmptyTable(t *testing.T) {
 	}
 	response := executeRequest(req)
 	checkResponseCode(t, http.StatusOK, response.Code)
-	if status := response.Body.String(); status != "[]\n" {
+	if status := response.Body.String(); status != "[]" {
 		t.Errorf("expected body []\ngot %v", status)
 	}
 

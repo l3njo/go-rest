@@ -19,6 +19,15 @@ type App struct {
 	DB     *gorm.DB
 }
 
+func (a *App) initRoutes() {
+	a.Router = mux.NewRouter()
+	a.Router.HandleFunc("/api/persons", a.getPersons).Methods("GET")
+	a.Router.HandleFunc("/api/persons/{id}", a.getPerson).Methods("GET")
+	a.Router.HandleFunc("/api/persons/new", a.createPerson).Methods("POST")
+	a.Router.HandleFunc("/api/persons/edit/{id}", a.updatePerson).Methods("PUT")
+	a.Router.HandleFunc("/api/persons/delete/{id}", a.deletePerson).Methods("DELETE")
+}
+
 // Init sets up routes and database connection
 func (a *App) Init(dbHost, dbUser, dbName, dbPass, dbType string) {
 	dbURI := fmt.Sprintf("host=%s user=%s dbname=%s sslmode=disable password=%s", dbHost, dbUser, dbName, dbPass)
@@ -27,13 +36,7 @@ func (a *App) Init(dbHost, dbUser, dbName, dbPass, dbType string) {
 		panic("failed to connect to database")
 	}
 	a.DB.AutoMigrate(&Person{})
-
-	a.Router = mux.NewRouter()
-	a.Router.HandleFunc("/api/persons", GetPersons).Methods("GET")
-	a.Router.HandleFunc("/api/persons/{id}", GetPerson).Methods("GET")
-	a.Router.HandleFunc("/api/persons/new", CreatePerson).Methods("POST")
-	a.Router.HandleFunc("/api/persons/edit/{id}", UpdatePerson).Methods("PUT")
-	a.Router.HandleFunc("/api/persons/delete/{id}", DeletePerson).Methods("DELETE")
+	a.initRoutes()
 }
 
 // Run serves the API on a specified port
