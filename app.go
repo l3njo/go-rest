@@ -24,7 +24,6 @@ func (a *App) Init(dbHost, dbUser, dbName, dbPass, dbType string) {
 	if err != nil {
 		panic("failed to connect to database")
 	}
-	defer a.DB.Close()
 	a.DB.AutoMigrate(&Person{})
 
 	a.Router = mux.NewRouter()
