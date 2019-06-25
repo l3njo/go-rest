@@ -1,8 +1,11 @@
 language: go
 
 go:
-  - 1.12.5
+  - 1.12.x
   - tip
+
+git:
+  depth: 1
 
 services:
   - postgresql
@@ -15,8 +18,14 @@ install:
   - go get github.com/jinzhu/gorm
   - go get github.com/joho/godotenv
 
+notifications:
+  email: false
+
+before_script:
+  - psql -c 'create database rest_db;' -U postgres
+
 script:
-  - go test -race -coverprofile=coverage.txt -covermode=atomic
+  - go test -v -coverprofile=coverage.out -covermode=atomic
   - go tool cover -html=coverage.out -o coverage.html 
 
 after_success:

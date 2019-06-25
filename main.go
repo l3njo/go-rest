@@ -1,7 +1,6 @@
 package main
 
 import (
-	"log"
 	"os"
 
 	"github.com/joho/godotenv"
@@ -12,9 +11,7 @@ var app App
 var dbHost, dbUser, dbName, dbPass, dbType, port string
 
 func init() {
-	if err := godotenv.Load(); err != nil {
-		log.Fatal(err)
-	}
+	godotenv.Load()
 	dbHost = os.Getenv("db_host")
 	dbUser = os.Getenv("db_user")
 	dbName = os.Getenv("db_name")
@@ -22,6 +19,12 @@ func init() {
 	dbType = os.Getenv("db_type")
 	port = os.Getenv("PORT")
 
+	if dbHost == "" {
+		dbHost = "localhost"
+	}
+	if dbName == "" {
+		dbName = "rest_db"
+	}
 	if port == "" {
 		port = "8000"
 	}

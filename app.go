@@ -32,9 +32,6 @@ func (a *App) initRoutes() {
 func (a *App) Init(dbHost, dbUser, dbName, dbPass, dbType string) {
 	dbURI := fmt.Sprintf("host=%s user=%s dbname=%s sslmode=disable password=%s", dbHost, dbUser, dbName, dbPass)
 	a.DB, err = gorm.Open(dbType, dbURI)
-	if err != nil {
-		panic("failed to connect to database")
-	}
 	a.DB.AutoMigrate(&Person{})
 	a.initRoutes()
 }
