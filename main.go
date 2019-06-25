@@ -1,56 +1,37 @@
 package main
 
 import (
-	"fmt"
-	"log"
-	"net/http"
 	"os"
 
-	"github.com/gorilla/mux"
-	"github.com/jinzhu/gorm"
 	"github.com/joho/godotenv"
-
-	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
-var db *gorm.DB
-var err error
+var app App
 
-func main() {
-	e := godotenv.Load()
-	if e != nil {
-		fmt.Print(e)
+var dbHost, dbUser, dbName, dbPass, dbType, port string
+
+func init() {
+	godotenv.Load()
+	dbHost = os.Getenv("db_host")
+	dbUser = os.Getenv("db_user")
+	dbName = os.Getenv("db_name")
+	dbPass = os.Getenv("db_pass")
+	dbType = os.Getenv("db_type")
+	port = os.Getenv("PORT")
+
+	if dbHost == "" {
+		dbHost = "localhost"
 	}
-
-	dbType := os.Getenv("db_type")
-	dbHost := os.Getenv("db_host")
-	dbUser := os.Getenv("db_user")
-	dbName := os.Getenv("db_name")
-	dbPass := os.Getenv("db_pass")
-
-	dbURI := fmt.Sprintf("host=%s user=%s dbname=%s sslmode=disable password=%s", dbHost, dbUser, dbName, dbPass)
-
-	db, err = gorm.Open(dbType, dbURI)
-
-	if err != nil {
-		panic("failed to connect to database")
+	if dbName == "" {
+		dbName = "rest_db"
 	}
-
-	defer db.Close()
-	db.AutoMigrate(&Person{})
-
-	router := mux.NewRouter()
-	router.HandleFunc("/api/persons", GetPersons).Methods("GET")
-	router.HandleFunc("/api/persons/{id}", GetPerson).Methods("GET")
-	router.HandleFunc("/api/persons/new", CreatePerson).Methods("POST")
-	router.HandleFunc("/api/persons/edit/{id}", UpdatePerson).Methods("PUT")
-	router.HandleFunc("/api/persons/delete/{id}", DeletePerson).Methods("DELETE")
-
-	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8000"
 	}
+}
 
-	fmt.Printf("Serving on localhost:%v\n", port)
-	log.Fatal(http.ListenAndServe(":"+port, router))
+func main() {
+	app = App{}
+	app.Init(dbHost, dbUser, dbName, dbPass, dbType)
+	app.Run(port)
 }
